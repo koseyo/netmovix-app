@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Show current branch
-          command: echo ${CURRENT_BRANCH}
+          command: echo ${CIRCLE_BRANCH}
       - restore_cache:
           keys:
             - app-{{ checksum "package.json" }}
@@ -30,7 +30,7 @@ jobs:
       - checkout
       - run:
           name: Show current branch
-          command: echo ${CURRENT_BRANCH}
+          command: echo ${CIRCLE_BRANCH}
       - run:
           name: Installing AWS CLI
           working_directory: /
@@ -67,7 +67,7 @@ jobs:
       - checkout
       - run:
           name: Show current branch
-          command: echo ${CURRENT_BRANCH}
+          command: echo ${CIRCLE_BRANCH}
       - run:
           name: Installing AWS CLI
           working_directory: /
@@ -86,7 +86,7 @@ jobs:
       - run:
           name: Deploy to AWS CloudFront
           command: |
-            aws configure set preview.cloudfront
+            aws configure set preview.cloudfront true
             if [ "${CIRCLE_BRANCH}" == "master" ]
             then
               aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths /\*
