@@ -42,6 +42,7 @@ aliases:
         echo "Build Successful"
 
 jobs:
+
   build:
     executor: app-executor
     steps:
@@ -50,6 +51,7 @@ jobs:
       - *restore-cache
       - *install-dependencies
       - *save-cache
+
   linting:
     executor: app-executor
     steps:
@@ -59,6 +61,16 @@ jobs:
       - run:
           name: Run Linting
           command: npm run lint
+
+  prettier:
+    executor: app-executor
+    steps:
+      - checkout
+      - *show-current-branch-name
+      - *restore-cache
+      - run:
+          name: Run PrettierCheck
+          command: npm run prettier-check
 
   deploy-to-aws-s3:
     executor: app-executor
@@ -105,7 +117,16 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - linting
+      - linting:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+                - staging
+                - master
+      - prettier:
           requires:
             - build
           filters:
@@ -116,7 +137,7 @@ workflows:
                 - master
       - deploy-to-aws-s3:
           requires:
-            - linting
+            - prettier
           filters:
             branches:
               only:
