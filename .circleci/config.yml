@@ -19,7 +19,7 @@ aliases:
     run:
       name: Install dependencies
       command: npm install
-  - &save_cache
+  - &save-cache
     save_cache:
       path: node_modules
       key: app-{{ checksum "package.json" }}
@@ -47,15 +47,15 @@ jobs:
     steps:
       - checkout
       - *show-current-branch-name
-      - *restore_cache
+      - *restore-cache
       - *install-dependencies
-      - *save_cache
+      - *save-cache
   linting:
     executor: app-executor
     steps:
       - checkout
       - *show-current-branch-name
-      - *restore_cache
+      - *restore-cache
       - run:
           name: Run Linting
           command: npm run lint
