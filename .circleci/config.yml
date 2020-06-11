@@ -21,7 +21,8 @@ aliases:
       command: npm install
   - &save-cache
     save_cache:
-      path: node_modules
+      paths: 
+        - node_modules
       key: app-{{ checksum "package.json" }}
   - &install-aws-cli
     run:
@@ -42,7 +43,6 @@ aliases:
         echo "Build Successful"
 
 jobs:
-
   build:
     executor: app-executor
     steps:
