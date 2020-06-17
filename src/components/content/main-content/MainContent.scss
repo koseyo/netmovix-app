@@ -1,0 +1,28 @@
+.main-content {
+    margin-bottom: 50px;
+}
+
+.movie {
+    &-title {
+        display: grid;
+        grid-template-areas: "movie-type . movie-page";
+        grid-template-columns: max-content 1fr max-content;
+        grid-template-rows: 1fr;
+        width: inherit;
+        color: #fff;
+        margin-bottom: 50px;
+        font-size: 20px;
+    }
+    
+    &-type {
+        grid-area: movie-type;
+        text-align: left;
+        padding: 10px 30px;
+    }
+
+    &-page {
+        grid-area: movie-page;
+        text-align: right;
+        padding-right: 30px;
+    }
+}
