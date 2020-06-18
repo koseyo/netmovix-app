@@ -29,6 +29,8 @@
         "react"
     ],
     "rules": {
+        "quotes": ["error", "double"],
+        "comma-dangle": 0,
         "semi": [2, "always"],
         "space-before-function-paren": [0, {"anonymous": "always", "named": "always"}],
         "camelcase": 0,
