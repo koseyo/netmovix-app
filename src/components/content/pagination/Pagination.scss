@@ -1,0 +1,23 @@
+.page {
+    &-btn {
+        color: #fff;
+        background-color: #B22222;
+        padding: 12px 20px;
+        margin: 0 12px;
+        border: none;
+        border-radius: 30px;
+        outline: none !important;
+    }
+
+    &-count {
+        color: #fff;
+        padding: 10px 5px;
+        margin: 0 5px;
+    }
+}
+
+.inactive {
+    cursor: none;
+    pointer-events: none;
+    background: rgba(255, 255, 255, .5);
+}
