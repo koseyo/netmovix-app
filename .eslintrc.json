@@ -1,0 +1,57 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "standard"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "settings": {
+      "react": {
+        "version": "16.0"
+      }
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "quotes": ["error", "double"],
+        "comma-dangle": 0,
+        "semi": [2, "always"],
+        "space-before-function-paren": [0, {"anonymous": "always", "named": "always"}],
+        "camelcase": 0,
+        "no-return-assign": 0,
+        "arrow-body-style": "error",
+        "arrow-parens": "error",
+        "arrow-spacing": "error",
+        "generator-star-spacing": "error",
+        "no-duplicate-imports": "error",
+        "no-useless-computed-key": "error",
+        "no-useless-constructor": "error",
+        "no-useless-rename": "error",
+        "no-var": "error",
+        "object-shorthand": "error",
+        "prefer-arrow-callback": "error",
+        "prefer-const": "error",
+        "prefer-rest-params": "error",
+        "prefer-spread": "error",
+        "prefer-template": "error",
+        "rest-spread-spacing": "error",
+        "template-curly-spacing": "error",
+        "yield-star-spacing": "error"
+    }
+}
