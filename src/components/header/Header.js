@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Header.scss";
 import logo from "../../assets/logo.png";
 import { connect } from "react-redux";
-import { getMovie } from "../../redux/action/movie";
+import { getMovie, setMovieType, setResponsePageNumber } from "../../redux/action/movie";
 import PropTypes from "prop-types";
 
 const HEADER_LIST = [
   {
     id: 1,
     iconClass: "fas fa-film",
-    name: "視聴履歴",
+    name: "上映中の作品",
     type: "now_playing",
   },
   {
@@ -33,13 +33,21 @@ const HEADER_LIST = [
 ];
 
 export const Header = (props) => {
-  const { getMovie } = props;
+  const { getMovie, setMovieType, page, totalPageIndex, setResponsePageNumber } = props;
   let [menuClass, setMenuClass] = useState(false);
   let [listClass, setlistClass] = useState(false);
+  const [type, setType] = useState("now_playing");
 
   useEffect(() => {
-    getMovie("now_playing", 1);
-  });
+    getMovie(type, page);
+    setResponsePageNumber(page, totalPageIndex);
+    // eslint-disable-next-line
+  }, [type]);
+
+  const setMovieTypeUrl = (type, name) => {
+    setType(type);
+    setMovieType(type);
+  };
 
   const toggleMenu = () => {
     menuClass = !menuClass;
@@ -68,7 +76,7 @@ export const Header = (props) => {
           </div>
           <ul className={`${listClass ? "header-list header-toggle-list" : "header-list"}`}>
             {HEADER_LIST.map((data) => (
-              <li key={data.id} className="header-list-item">
+              <li key={data.id} className={data.type === type ? "header-list-item active-item" : "header-list-item"} onClick={() => setMovieTypeUrl(data.type)}>
                 <span className="header-list-name">
                   <i className={data.iconClass}></i>
                 </span>
@@ -85,9 +93,18 @@ export const Header = (props) => {
 };
 
 Header.propTypes = {
-  getMovie: PropTypes.func,
+  getMovie: PropTypes.func.isRequired,
+  setMovieType: PropTypes.func,
+  setResponsePageNumber: PropTypes.func,
+  list: PropTypes.array,
+  page: PropTypes.number,
+  totalPageIndex: PropTypes.number,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  list: state.movies.list,
+  page: state.movies.page,
+  totalPageIndex: state.movies.totalPageIndex,
+});
 
-export default connect(mapStateToProps, { getMovie })(Header);
+export default connect(mapStateToProps, { getMovie, setMovieType, setResponsePageNumber })(Header);
