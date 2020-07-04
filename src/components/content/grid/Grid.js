@@ -9,7 +9,6 @@ import LazyImage from "../../lazy-image/LazyImage";
 
 const Grid = (props) => {
   const { list } = props;
-  console.log(list);
   const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
