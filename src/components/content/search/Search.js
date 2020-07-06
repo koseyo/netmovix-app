@@ -7,6 +7,7 @@ import { IMAGE_URL } from "../../../API/movieAPI";
 import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import LazyImage from "../../lazy-image/LazyImage";
+import { Link } from "react-router-dom";
 
 const Search = (props) => {
   const { searchQuery, searchResult } = props;
@@ -15,6 +16,11 @@ const Search = (props) => {
   useEffect(() => {
     setMovieData(searchResult);
   }, [searchResult]);
+
+  const formatMovieTitle = (title) => {
+    const titleStr = title.toLowerCase();
+    return titleStr.replace(/ /g, "-");
+  };
 
   return (
     <div className="grid-search-word">
@@ -27,7 +33,9 @@ const Search = (props) => {
             {data.poster_path && (
               <LazyImage className="grid-cell" src={`${IMAGE_URL}${data.poster_path}`} alt="placeholder">
                 <div className="grid-detail">
-                  <button className="grid-detail-btn">詳しく見る</button>
+                  <button className="grid-detail-btn">
+                    <Link to={`/${data.id}/${formatMovieTitle(data.title)}/details`}>詳しく見る</Link>
+                  </button>
                 </div>
                 <div className="grid-movie">
                   <span className="grid-movie-title">{data.title}</span>

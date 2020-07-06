@@ -4,6 +4,7 @@ import logo from "../../assets/logo.png";
 import { connect } from "react-redux";
 import { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult } from "../../redux/action/movie";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 const HEADER_LIST = [
   {
@@ -68,12 +69,18 @@ export const Header = (props) => {
     }
   };
 
+  const history = useHistory();
+
+  const toMain = () => {
+    history.push("/");
+  };
+
   return (
     <div className="header">
       <div className="header-wrapper">
         <div className="header-bar"></div>
         <div className="header-nav">
-          <div className="header-image">
+          <div className="header-image" onClick={() => toMain}>
             <img src={logo} alt="" />
           </div>
           <div className={`${menuClass ? "header-toggle active" : "header-toggle"}`} id="header-toggle" onClick={() => toggleMenu()}>
