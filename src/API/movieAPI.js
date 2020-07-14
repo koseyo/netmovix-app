@@ -13,3 +13,28 @@ export const SEARCH_API_URL = async (query) => {
   const response = await axios.get(`${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ja-Japan&query=${query}`);
   return response;
 };
+
+export const MOVIE_DETAILS_URL = async(id) => {
+  const response = await axios.get(`${REQUEST_URL}/movie/${id}?api_key=${API_KEY}&language=ja-Japan`);
+  return response;
+};
+
+export const MOVIE_CREDITS_URL = async(id) => {
+  const response = await axios.get(`${REQUEST_URL}/movie/${id}/credits?api_key=${API_KEY}&language=ja-Japan`);
+  return response;
+};
+
+export const MOVIE_IMAGES_URL = async(id) => {
+  const response = await axios.get(`${REQUEST_URL}/movie/${id}/images?api_key=${API_KEY}&language=ja-Japan&include_image_language=ja`);
+  return response;
+};
+
+export const MOVIE_VIDEOS_URL = async(id) => {
+  const response = await axios.get(`${REQUEST_URL}/movie/${id}/videos?api_key=${API_KEY}&language=ja-Japan`);
+  return response;
+};
+
+export const MOVIE_REVIEWS_URL = async(id, page = 1) => {
+  const response = await axios.get(`${REQUEST_URL}/movie/${id}/reviews?api_key=${API_KEY}&language=ja-Japan&page=${page}`);
+  return response;
+};

@@ -1,4 +1,4 @@
-import { MOVIE_LIST, RESPONSE_PAGE, LOAD_MORE_RESULTS, MOVIE_TYPE, SEARCH_QUERY, SEARCH_RESULT } from "../types";
+import { MOVIE_LIST, RESPONSE_PAGE, LOAD_MORE_RESULTS, MOVIE_TYPE, SEARCH_QUERY, SEARCH_RESULT, MOVIE_DETAILS, CLEAR_MOVIE_DETAILS } from "../types";
 
 const initialState = {
   list: [],
@@ -7,6 +7,7 @@ const initialState = {
   movieType: "上映中の作品",
   searchQuery: "",
   searchResult: [],
+  movie: [],
 };
 
 export default (state = initialState, action) => {
@@ -44,6 +45,16 @@ export default (state = initialState, action) => {
         ...state,
         searchResult: action.payload,
       };
+    case MOVIE_DETAILS:
+      return {
+        ...state,
+        movie: action.payload,
+      };
+      case CLEAR_MOVIE_DETAILS:
+        return {
+          ...state,
+          movie: [],
+        }
     default:
       return state;
   }

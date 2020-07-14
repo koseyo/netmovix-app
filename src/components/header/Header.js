@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Header.scss";
 import logo from "../../assets/logo.png";
 import { connect } from "react-redux";
-import { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult } from "../../redux/action/movie";
+import { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } from "../../redux/action/movie";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const HEADER_LIST = [
   {
@@ -34,21 +34,36 @@ const HEADER_LIST = [
 ];
 
 export const Header = (props) => {
-  const { getMovie, setMovieType, page, totalPageIndex, setResponsePageNumber, searchQuery, searchResult } = props;
+  const { getMovie, setMovieType, page, totalPageIndex, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } = props;
   let [menuClass, setMenuClass] = useState(false);
   let [listClass, setlistClass] = useState(false);
   const [type, setType] = useState("now_playing");
   const [searchMovie, setSearchMovie] = useState("");
+  const [disableSearchMovie, setDisableSearchMovie] = useState(false);
+
+  const location = useLocation();
 
   useEffect(() => {
     getMovie(type, page);
     setResponsePageNumber(page, totalPageIndex);
+
+    if(location.pathname !== '/' && location.key) {
+      setDisableSearchMovie(true);
+    }
     // eslint-disable-next-line
-  }, [type]);
+  }, [type, disableSearchMovie, location]);
 
   const setMovieTypeUrl = (type, name) => {
-    setType(type);
-    setMovieType(type);
+    setDisableSearchMovie(false);
+    if(location.pathname !== '/') {
+      clearMovieDetails();
+      history.push('/');
+      setType(type);
+      setMovieType(type)
+    } else {
+      setType(type);
+      setMovieType(type);
+    }
   };
 
   const onChangeSearch = (e) => {
@@ -72,6 +87,8 @@ export const Header = (props) => {
   const history = useHistory();
 
   const toMain = () => {
+    setDisableSearchMovie(false);
+    clearMovieDetails();
     history.push("/");
   };
 
@@ -80,7 +97,7 @@ export const Header = (props) => {
       <div className="header-wrapper">
         <div className="header-bar"></div>
         <div className="header-nav">
-          <div className="header-image" onClick={() => toMain}>
+          <div className="header-image" onClick={() => toMain()}>
             <img src={logo} alt="" />
           </div>
           <div className={`${menuClass ? "header-toggle active" : "header-toggle"}`} id="header-toggle" onClick={() => toggleMenu()}>
@@ -98,7 +115,7 @@ export const Header = (props) => {
                 <span className="header-list-name">{data.name}</span>
               </li>
             ))}
-            <input className="search-input" type="text" placeholder="映画名を入力してください" value={searchMovie} onChange={onChangeSearch} />
+            <input className={`search-input ${disableSearchMovie ? "disabled" : ""}`} type="text" placeholder="映画名を入力してください" value={searchMovie} onChange={onChangeSearch} />
           </ul>
         </div>
       </div>
@@ -115,6 +132,7 @@ Header.propTypes = {
   list: PropTypes.array,
   page: PropTypes.number,
   totalPageIndex: PropTypes.number,
+  clearMovieDetails: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -123,4 +141,4 @@ const mapStateToProps = (state) => ({
   totalPageIndex: state.movies.totalPageIndex,
 });
 
-export default connect(mapStateToProps, { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult })(Header);
+export default connect(mapStateToProps, { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails })(Header);
