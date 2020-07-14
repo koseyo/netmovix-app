@@ -55,7 +55,7 @@ const MainContent = (props) => {
     let pageNumber = currentPageIndex;
     if (type === "prev" && currentPageIndex > 1) {
       pageNumber -= 1;
-    } else if(type === "next") {
+    } else if (type === "next") {
       pageNumber += 1;
     }
     setCurrentPageIndex(pageNumber);

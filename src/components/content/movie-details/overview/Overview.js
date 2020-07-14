@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./Overview.scss";
-import {IMAGE_URL} from "../../../../API/movieAPI";
-import {connect} from "react-redux";
-import {v4 as uuidv4} from "uuid";
+import { IMAGE_URL } from "../../../../API/movieAPI";
+import { connect } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
 
 const Overview = (props) => {
-  const {movie} = props;
+  const { movie } = props;
   const [items, setItems] = useState([]);
   const [details] = useState(movie[0]);
   const [credits] = useState(movie[1]);
@@ -75,44 +75,38 @@ const Overview = (props) => {
         <div className="overview-cast">
           <div className="overview-cast-title">Cast</div>
           <table>
-            {
-              credits.cast.map((data) =>
-                <tbody key={uuidv4()}>
-                  <tr>
-                    <td>
-                      <img src={data.profile_path ? `${IMAGE_URL}${data.profile_path}` : 'http://placehold.it/54x81'} alt="" />
-                    </td>
-                    <td>{data.name}</td>
-                    <td>{data.character}</td>
-                  </tr>
-                </tbody>
-              )
-            }
+            {credits.cast.map((data) => (
+              <tbody key={uuidv4()}>
+                <tr>
+                  <td>
+                    <img src={data.profile_path ? `${IMAGE_URL}${data.profile_path}` : "http://placehold.it/54x81"} alt="" />
+                  </td>
+                  <td>{data.name}</td>
+                  <td>{data.character}</td>
+                </tr>
+              </tbody>
+            ))}
           </table>
         </div>
       </div>
       <div className="overview-column-2">
         <div className="overview-detail">
           <h6>制作会社</h6>
-          {
-            details.production_companies.map((prod) =>
-              <div className="overview-productCompany" key={uuidv4()}>
-                <img src={
-                  prod.logo_path ? `${IMAGE_URL}${prod.logo_path}` : 'http://placehold.it/30x30'
-                } alt="" />
-                <span>{prod.name}</span>
-              </div>
-            )
-          }
+          {details.production_companies.map((prod) => (
+            <div className="overview-productCompany" key={uuidv4()}>
+              <img src={prod.logo_path ? `${IMAGE_URL}${prod.logo_path}` : "http://placehold.it/30x30"} alt="" />
+              <span>{prod.name}</span>
+            </div>
+          ))}
         </div>
         <div className="overview-detail">
           <h6>言語</h6>
           <p>
-            {
-              details.spoken_languages.map((language) =>
-                <a href="!#" key={language.name}>{language.name}</a>
-              )
-            }
+            {details.spoken_languages.map((language) => (
+              <a href="!#" key={language.name}>
+                {language.name}
+              </a>
+            ))}
           </p>
         </div>
 
@@ -129,15 +123,12 @@ const Overview = (props) => {
   );
 };
 
-Overview.propsTypes = {
+Overview.propTypes = {
   movie: PropTypes.array,
-}
+};
 
 const mapStateToProps = (state) => ({
-  movie: state.movies.movie
-})
+  movie: state.movies.movie,
+});
 
-export default connect(
-  mapStateToProps,
-  {}
-)(Overview);
+export default connect(mapStateToProps, {})(Overview);

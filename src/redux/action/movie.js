@@ -66,14 +66,14 @@ export const movieDetails = (id) => async (dispatch) => {
       .then((values) => Promise.all(values.map((value) => value.data)))
       .then((response) => response);
     dispatchMethod(MOVIE_DETAILS, responseValues, dispatch);
-  } catch(error) {
-    if(error.response) {
+  } catch (error) {
+    if (error.response) {
       dispatchMethod(SET_ERROR, error.response.data.message, dispatch);
     }
   }
-}
+};
 
-export const clearMovieDetails = () => async(dispatch) => {
+export const clearMovieDetails = () => async (dispatch) => {
   dispatchMethod(CLEAR_MOVIE_DETAILS, [], dispatch);
 };
 

@@ -47,7 +47,7 @@ export const Header = (props) => {
     getMovie(type, page);
     setResponsePageNumber(page, totalPageIndex);
 
-    if(location.pathname !== '/' && location.key) {
+    if (location.pathname !== "/" && location.key) {
       setDisableSearchMovie(true);
     }
     // eslint-disable-next-line
@@ -55,11 +55,11 @@ export const Header = (props) => {
 
   const setMovieTypeUrl = (type, name) => {
     setDisableSearchMovie(false);
-    if(location.pathname !== '/') {
+    if (location.pathname !== "/") {
       clearMovieDetails();
-      history.push('/');
+      history.push("/");
       setType(type);
-      setMovieType(type)
+      setMovieType(type);
     } else {
       setType(type);
       setMovieType(type);

@@ -50,11 +50,11 @@ export default (state = initialState, action) => {
         ...state,
         movie: action.payload,
       };
-      case CLEAR_MOVIE_DETAILS:
-        return {
-          ...state,
-          movie: [],
-        }
+    case CLEAR_MOVIE_DETAILS:
+      return {
+        ...state,
+        movie: [],
+      };
     default:
       return state;
   }
