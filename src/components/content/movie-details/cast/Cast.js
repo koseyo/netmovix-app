@@ -17,8 +17,8 @@ const Cast = (props) => {
           <tr>
             <th></th>
             <th></th>
-            <th className="cast-head">content</th>
-            <th className="cast-head">content</th>
+            <th className="cast-head">主な仕事</th>
+            <th className="cast-head">役職</th>
           </tr>
         </thead>
         {credits.crew.map((data) => (

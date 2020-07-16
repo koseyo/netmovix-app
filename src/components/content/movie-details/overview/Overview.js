@@ -15,32 +15,32 @@ const Overview = (props) => {
     const detailItems = [
       {
         id: 0,
-        name: "Tagline",
+        name: "キャッチフレーズ",
         value: `${details.tagline}`,
       },
       {
         id: 1,
-        name: "Budget",
+        name: "予算",
         value: `${numberFormatter(details.budget, 1)}`,
       },
       {
         id: 2,
-        name: "Revenue",
+        name: "収益",
         value: `${numberFormatter(details.revenue, 1)}`,
       },
       {
         id: 3,
-        name: "Status",
+        name: "現在の状況",
         value: `${details.status}`,
       },
       {
         id: 4,
-        name: "Release Date",
+        name: "リリース日時",
         value: `${details.release_date}`,
       },
       {
         id: 5,
-        name: "Run Time",
+        name: "上映時間",
         value: `${details.runtime} min`,
       },
     ];
@@ -51,10 +51,10 @@ const Overview = (props) => {
 
   const numberFormatter = (number, digits) => {
     const symbolArray = [
-      { value: 1, symbol: "" },
-      { value: 1e3, symbol: "K" },
-      { value: 1e6, symbol: "M" },
-      { value: 1e9, symbol: "B" },
+      { value: 1, symbol: "ドル" },
+      { value: 1e3, symbol: "Kドル" },
+      { value: 1e6, symbol: "Mドル" },
+      { value: 1e9, symbol: "Bドル" },
     ];
     const regex = /\.0+$|(\.[0-9]*[1-9])0+$/;
     let result = "";
@@ -73,7 +73,7 @@ const Overview = (props) => {
         <div className="overview-description">{details.overview}</div>
 
         <div className="overview-cast">
-          <div className="overview-cast-title">Cast</div>
+          <div className="overview-cast-title">キャスト</div>
           <table>
             {credits.cast.map((data) => (
               <tbody key={uuidv4()}>

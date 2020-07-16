@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 import { connect } from "react-redux";
 import { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } from "../../redux/action/movie";
 import PropTypes from "prop-types";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 
 const HEADER_LIST = [
   {
@@ -40,12 +40,17 @@ export const Header = (props) => {
   const [type, setType] = useState("now_playing");
   const [searchMovie, setSearchMovie] = useState("");
   const [disableSearchMovie, setDisableSearchMovie] = useState(false);
+  const [hideHeader, setHideHeader] = useState(false);
 
   const location = useLocation();
+  const detailsRoute = useRouteMatch("/:id/:name/details");
 
   useEffect(() => {
     getMovie(type, page);
     setResponsePageNumber(page, totalPageIndex);
+    if (detailsRoute || location.pathname === "/") {
+      setHideHeader(true);
+    }
 
     if (location.pathname !== "/" && location.key) {
       setDisableSearchMovie(true);
@@ -93,33 +98,37 @@ export const Header = (props) => {
   };
 
   return (
-    <div className="header">
-      <div className="header-wrapper">
-        <div className="header-bar"></div>
-        <div className="header-nav">
-          <div className="header-image" onClick={() => toMain()}>
-            <img src={logo} alt="" />
+    <>
+      {hideHeader && (
+        <div className="header">
+          <div className="header-wrapper">
+            <div className="header-bar"></div>
+            <div className="header-nav">
+              <div className="header-image" onClick={() => toMain()}>
+                <img src={logo} alt="" />
+              </div>
+              <div className={`${menuClass ? "header-toggle active" : "header-toggle"}`} id="header-toggle" onClick={() => toggleMenu()}>
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+              </div>
+              <ul className={`${listClass ? "header-list header-toggle-list" : "header-list"}`}>
+                {HEADER_LIST.map((data) => (
+                  <li key={data.id} className={data.type === type ? "header-list-item active-item" : "header-list-item"} onClick={() => setMovieTypeUrl(data.type)}>
+                    <span className="header-list-name">
+                      <i className={data.iconClass}></i>
+                    </span>
+                    &nbsp;
+                    <span className="header-list-name">{data.name}</span>
+                  </li>
+                ))}
+                <input className={`search-input ${disableSearchMovie ? "disabled" : ""}`} type="text" placeholder="映画名を入力してください" value={searchMovie} onChange={onChangeSearch} />
+              </ul>
+            </div>
           </div>
-          <div className={`${menuClass ? "header-toggle active" : "header-toggle"}`} id="header-toggle" onClick={() => toggleMenu()}>
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </div>
-          <ul className={`${listClass ? "header-list header-toggle-list" : "header-list"}`}>
-            {HEADER_LIST.map((data) => (
-              <li key={data.id} className={data.type === type ? "header-list-item active-item" : "header-list-item"} onClick={() => setMovieTypeUrl(data.type)}>
-                <span className="header-list-name">
-                  <i className={data.iconClass}></i>
-                </span>
-                &nbsp;
-                <span className="header-list-name">{data.name}</span>
-              </li>
-            ))}
-            <input className={`search-input ${disableSearchMovie ? "disabled" : ""}`} type="text" placeholder="映画名を入力してください" value={searchMovie} onChange={onChangeSearch} />
-          </ul>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
