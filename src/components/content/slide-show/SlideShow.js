@@ -9,10 +9,30 @@ const SlideShow = (props) => {
     slideIndex: 0,
   });
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideInterval, setSlideInterval] = useState(0);
 
   const { slideShow, slideIndex } = state;
-
   let currentSlideIndex = 0;
+
+  useEffect(() => {
+    setState({
+      ...state,
+      slideIndex: 0,
+      slideShow: images[0],
+    });
+    if (auto) {
+      const interval = setInterval(() => {
+        autoSlide();
+      }, 5000);
+      setSlideInterval(interval);
+
+      return () => {
+        clearInterval(interval);
+        clearInterval(slideInterval);
+      };
+    }
+    // eslint-disable-next-line
+  }, [images]);
 
   const autoSlide = () => {
     let lastIndex = 0;
@@ -25,23 +45,6 @@ const SlideShow = (props) => {
       slideShow: images[currentSlideIndex],
     }));
   };
-
-  const [slideInterval, setSlideInterval] = useState(0);
-
-  useEffect(() => {
-    if (auto) {
-      const interval = setInterval(() => {
-        autoSlide();
-      }, 3000);
-      setSlideInterval(interval);
-
-      return () => {
-        clearInterval(interval);
-        clearInterval(slideInterval);
-      };
-    }
-    // eslint-disable-next-line
-  }, []);
 
   const moveSlideArrow = (type) => {
     let i = currentIndex;
@@ -86,7 +89,7 @@ const SlideShow = (props) => {
     <div className="slide">
       <div className="slide-content">{images && images.length && slideShow && <div className="slide-image" style={{ backgroundImage: `url(${slideShow.url})` }}></div>}</div>
       <Indicator currentSlide={slideIndex} />
-      {!arrows ? <SlideArrows /> : null}
+      {arrows ? <SlideArrows /> : null}
     </div>
   );
 };

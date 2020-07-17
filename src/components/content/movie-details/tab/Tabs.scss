@@ -1,0 +1,44 @@
+.tabs {
+    text-align: left;
+
+    &-list {
+      padding-left: 0;
+
+      &-item {
+        display: inline-block;
+        list-style: none;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
+        color: #abb7c4;
+        padding-bottom: 15px;
+        margin: 0 50px 20px 0;
+      }
+
+      &-active {
+        color: #dcf836;
+        border-bottom: 3px solid #dcf836;
+      }
+    }
+}
+  
+@media (max-width: 700px) {
+    .tabs {
+        &-list {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
+
+            &-item {
+                display: block;
+                text-align: left;
+            }
+
+            &-active {
+                color: #dcf836;
+                border-bottom: none;
+            }
+
+        }
+    }
+}

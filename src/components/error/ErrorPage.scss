@@ -1,0 +1,36 @@
+.error {
+    &-page {
+        color: #fff;
+        font-size: 100%;
+        line-height: 1.5;
+        height: 100%;
+        text-align: center;
+    }
+
+    &-header {
+        font-size: 5em;
+        font-weight: 100;
+        margin: 5rem auto 10rem;
+    }
+    
+    &-message {
+        font-size: 2rem;
+        font-weight: 100;
+        margin-bottom: 10rem;
+    }
+
+    &-link {
+        margin: auto;
+        font-weight: 300;
+        color: #fff;
+        font-size: 1.2rem;
+        border: 1px solid #efefef;
+        padding: .5em;
+        border-radius: 3px;
+        text-decoration: none !important;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+}

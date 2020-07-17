@@ -1,0 +1,18 @@
+.grid-search {
+    &-title {
+        margin: 50px;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    &-text1 {
+        grid-area: text1;
+        padding-right: 8px;
+        color: #B22222;
+    }
+
+    &-text2 {
+        grid-area: text2;
+        color: #fff;
+    }
+}
