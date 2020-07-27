@@ -11,10 +11,11 @@ import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { movieDetails } from "../../../redux/action/movie";
 import { IMAGE_URL } from "../../../API/movieAPI";
+import { pathURL } from "../../../redux/action/routes";
 import PropTypes from "prop-types";
 
 const Details = (props) => {
-  const { movieDetails, movie } = props;
+  const { movieDetails, movie, pathURL, match } = props;
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
   const { id } = useParams();
@@ -24,9 +25,11 @@ const Details = (props) => {
     setTimeout(() => {
       setLoading(false);
     }, 3000);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
+    pathURL(match.path, match.url);
     if (movie.length === 0) {
       movieDetails(id);
     }
@@ -87,10 +90,12 @@ const Details = (props) => {
 Details.propTypes = {
   movie: PropTypes.array,
   movieDetails: PropTypes.func,
+  pathURL: PropTypes.func,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   movie: state.movies.movie,
 });
 
-export default connect(mapStateToProps, { movieDetails })(Details);
+export default connect(mapStateToProps, { movieDetails, pathURL })(Details);

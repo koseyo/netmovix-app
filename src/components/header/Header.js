@@ -3,8 +3,10 @@ import "./Header.scss";
 import logo from "../../assets/logo.png";
 import { connect } from "react-redux";
 import { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } from "../../redux/action/movie";
-import PropTypes from "prop-types";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { pathURL } from "../../redux/action/routes";
+import { setError } from "../../redux/action/errors";
+import PropTypes from "prop-types";
 
 const HEADER_LIST = [
   {
@@ -34,7 +36,7 @@ const HEADER_LIST = [
 ];
 
 export const Header = (props) => {
-  const { getMovie, setMovieType, page, totalPageIndex, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } = props;
+  const { getMovie, setMovieType, page, totalPageIndex, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails, routesArray, path, url, pathURL, setError, errors } = props;
   let [menuClass, setMenuClass] = useState(false);
   let [listClass, setlistClass] = useState(false);
   const [type, setType] = useState("now_playing");
@@ -46,17 +48,42 @@ export const Header = (props) => {
   const detailsRoute = useRouteMatch("/:id/:name/details");
 
   useEffect(() => {
-    getMovie(type, page);
-    setResponsePageNumber(page, totalPageIndex);
-    if (detailsRoute || location.pathname === "/") {
-      setHideHeader(true);
+    console.log(process.env);
+    if (routesArray.length) {
+      if (!path && !url) {
+        pathURL("/", "/");
+        const error = new Error(`404エラー! ${location.pathname}が見つかりません`);
+        setError({ message: `${location.pathname}が見つかりません`, statusCode: 404 });
+        throw error;
+      }
+    }
+    // eslint-disable-next-line
+  }, [path, url, routesArray, pathURL]);
+
+  useEffect(() => {
+    if (errors.message || errors.statusCode) {
+      pathURL("/", "/");
+      const error = new Error(`${errors.message} ステータスコード:${errors.statusCode}`);
+      setError({ message: `${location.pathname}が見つかりません`, statusCode: 404 });
+      throw error;
+    }
+    // eslint-disable-next-line
+  }, [errors]);
+
+  useEffect(() => {
+    if (path && !errors.message && !errors.statusCode) {
+      getMovie(type, page);
+      setResponsePageNumber(page, totalPageIndex);
+      if (detailsRoute || location.pathname === "/") {
+        setHideHeader(true);
+      }
     }
 
     if (location.pathname !== "/" && location.key) {
       setDisableSearchMovie(true);
     }
     // eslint-disable-next-line
-  }, [type, disableSearchMovie, location]);
+  }, [type, disableSearchMovie, location, path, errors]);
 
   const setMovieTypeUrl = (type, name) => {
     setDisableSearchMovie(false);
@@ -142,12 +169,22 @@ Header.propTypes = {
   page: PropTypes.number,
   totalPageIndex: PropTypes.number,
   clearMovieDetails: PropTypes.func,
+  routesArray: PropTypes.array,
+  path: PropTypes.string,
+  url: PropTypes.string,
+  pathURL: PropTypes.func,
+  setError: PropTypes.func,
+  errors: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   list: state.movies.list,
   page: state.movies.page,
   totalPageIndex: state.movies.totalPageIndex,
+  routesArray: state.routes.routesArray,
+  path: state.routes.path,
+  url: state.routes.url,
+  errors: state.errors,
 });
 
-export default connect(mapStateToProps, { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails })(Header);
+export default connect(mapStateToProps, { getMovie, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails, pathURL, setError })(Header);
